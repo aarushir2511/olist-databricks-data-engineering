@@ -48,12 +48,18 @@ FROM STREAM read_files(
 
 -- 5. ORDER REVIEWS
 CREATE OR REFRESH STREAMING TABLE olist_cdp_dev.bronze.order_reviews
+
 AS
+
 SELECT *
+
 FROM STREAM read_files(
     '/Volumes/olist_cdp_dev/bronze/landing',
     format => 'csv',
     header => true,
+    multiLine => true,
+    quote => '"',
+    escape => '"',
     pathGlobFilter => 'olist_order_reviews_dataset.csv'
 );
 
