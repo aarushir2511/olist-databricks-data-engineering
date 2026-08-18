@@ -1,4 +1,4 @@
-CREATE OR REFRESH STREAMING TABLE olist_cdp.silver.sellers_clean
+CREATE OR REFRESH STREAMING TABLE olist_cdp_dev.silver.sellers_clean
 AS
 SELECT
     seller_id,
@@ -6,6 +6,6 @@ SELECT
     seller_city,
     seller_state
 
-FROM STREAM(olist_cdp.bronze.sellers)
+FROM STREAM(olist_cdp_dev.bronze.sellers)
 
 WHERE seller_id IS NOT NULL;

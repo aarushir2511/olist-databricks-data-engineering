@@ -1,4 +1,4 @@
-CREATE OR REFRESH STREAMING TABLE olist_cdp.silver.products_clean
+CREATE OR REFRESH STREAMING TABLE olist_cdp_dev.silver.products_clean
 AS
 SELECT
     product_id,
@@ -21,6 +21,6 @@ SELECT
         * CAST(product_width_cm AS DOUBLE)
     ) AS product_volume_cm3
 
-FROM STREAM(olist_cdp.bronze.products)
+FROM STREAM(olist_cdp_dev.bronze.products)
 
 WHERE product_id IS NOT NULL;

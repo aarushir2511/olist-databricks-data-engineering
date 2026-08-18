@@ -1,4 +1,4 @@
-CREATE OR REFRESH MATERIALIZED VIEW olist_cdp.gold.order_analytics
+CREATE OR REFRESH MATERIALIZED VIEW olist_cdp_dev.gold.order_analytics
 AS
 WITH item_summary AS (
     SELECT
@@ -6,7 +6,7 @@ WITH item_summary AS (
         COUNT(*) AS total_items,
         SUM(price) AS total_product_value,
         SUM(freight_value) AS total_freight_value
-    FROM olist_cdp.silver.order_items_enriched
+    FROM olist_cdp_dev.silver.order_items_enriched
     GROUP BY order_id
 )
 
@@ -43,13 +43,13 @@ SELECT
     c.latitude,
     c.longitude
 
-FROM olist_cdp.silver.orders_clean o
+FROM olist_cdp_dev.silver.orders_clean o
 
 LEFT JOIN item_summary i
     ON o.order_id = i.order_id
 
-LEFT JOIN olist_cdp.silver.payments_clean p
+LEFT JOIN olist_cdp_dev.silver.payments_clean p
     ON o.order_id = p.order_id
 
-LEFT JOIN olist_cdp.silver.customers_enriched c
+LEFT JOIN olist_cdp_dev.silver.customers_enriched c
     ON o.customer_id = c.customer_id;

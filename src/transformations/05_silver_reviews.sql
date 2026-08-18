@@ -1,4 +1,4 @@
-CREATE OR REFRESH STREAMING TABLE olist_cdp.silver.reviews_clean
+CREATE OR REFRESH STREAMING TABLE olist_cdp_dev.silver.reviews_clean
 AS
 SELECT
     review_id,
@@ -24,7 +24,7 @@ SELECT
         CAST(review_creation_date AS DATE)
     ) AS response_days
 
-FROM STREAM(olist_cdp.bronze.order_reviews)
+FROM STREAM(olist_cdp_dev.bronze.order_reviews)
 
 WHERE review_id IS NOT NULL
   AND order_id IS NOT NULL
