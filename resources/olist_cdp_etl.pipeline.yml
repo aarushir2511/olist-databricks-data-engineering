@@ -2,10 +2,8 @@ resources:
   pipelines:
     olist_cdp_etl:
       name: Olist_CDP_ETL
-
       catalog: ${var.catalog}
       schema: bronze
-
       serverless: true
       photon: true
       continuous: false
@@ -14,4 +12,4 @@ resources:
 
       libraries:
         - glob:
-            include: ../src/transformations/**
+            include: ../src/transformations/*.sql
