@@ -12,4 +12,4 @@ resources:
 
       libraries:
         - glob:
-            include: ../src/transformations/**/*.sql
+            include: ../src/transformations/**
