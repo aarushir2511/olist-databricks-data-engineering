@@ -1,0 +1,28 @@
+tests:
+  - name: passes_through_valid_seller
+    model: 09_silver_sellers.sql
+    given:
+      - table: bronze.sellers
+        rows:
+          - seller_id: "s1"
+            seller_zip_code_prefix: "20000"
+            seller_city: "rio de janeiro"
+            seller_state: "RJ"
+    expect:
+      rows:
+        - seller_id: "s1"
+          seller_zip_code_prefix: "20000"
+          seller_city: "rio de janeiro"
+          seller_state: "RJ"
+
+  - name: drops_rows_with_null_seller_id
+    model: 09_silver_sellers.sql
+    given:
+      - table: bronze.sellers
+        rows:
+          - seller_id: null
+            seller_zip_code_prefix: "20000"
+            seller_city: "rio de janeiro"
+            seller_state: "RJ"
+    expect:
+      rows: []

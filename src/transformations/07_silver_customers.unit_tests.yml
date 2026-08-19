@@ -1,0 +1,49 @@
+tests:
+  - name: joins_customer_to_geolocation_by_zip
+    model: 07_silver_customers.sql
+    given:
+      - table: bronze.customers
+        rows:
+          - customer_id: "c1"
+            customer_unique_id: "u1"
+            customer_zip_code_prefix: "01001"
+            customer_city: "sao paulo"
+            customer_state: "SP"
+      - table: silver.geolocation_clean
+        rows:
+          - geolocation_zip_code_prefix: "01001"
+            latitude: -23.55
+            longitude: -46.63
+            city: "sao paulo"
+            state: "SP"
+    expect:
+      rows:
+        - customer_id: "c1"
+          customer_unique_id: "u1"
+          customer_zip_code_prefix: "01001"
+          customer_city: "sao paulo"
+          customer_state: "SP"
+          latitude: -23.55
+          longitude: -46.63
+
+  - name: customer_with_no_geolocation_match_gets_null_coords
+    model: 07_silver_customers.sql
+    given:
+      - table: bronze.customers
+        rows:
+          - customer_id: "c2"
+            customer_unique_id: "u2"
+            customer_zip_code_prefix: "99999"
+            customer_city: "unknown city"
+            customer_state: "XX"
+      - table: silver.geolocation_clean
+        rows: []
+    expect:
+      rows:
+        - customer_id: "c2"
+          customer_unique_id: "u2"
+          customer_zip_code_prefix: "99999"
+          customer_city: "unknown city"
+          customer_state: "XX"
+          latitude: null
+          longitude: null

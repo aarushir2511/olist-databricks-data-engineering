@@ -1,0 +1,17 @@
+resources:
+  pipelines:
+    olist_cdp_etl:
+      name: Olist_CDP_ETL
+
+      catalog: olist_cdp_dev
+      schema: bronze
+
+      serverless: true
+      photon: true
+      continuous: false
+      development: false
+      channel: CURRENT
+
+      libraries:
+        - glob:
+            include: ../src/transformations/**

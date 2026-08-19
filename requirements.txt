@@ -1,0 +1,2 @@
+sdp-test[spark]
+pytest

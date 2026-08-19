@@ -1,0 +1,62 @@
+tests:
+  - name: aggregates_order_history_per_customer
+    model: 12_gold_customer_analytics.sql
+    given:
+      - table: silver.customers_enriched
+        rows:
+          - customer_id: "c1"
+            customer_unique_id: "u1"
+            customer_city: "sao paulo"
+            customer_state: "SP"
+            latitude: -23.55
+            longitude: -46.63
+      - table: gold.order_analytics
+        rows:
+          - customer_id: "c1"
+            total_payment_value: 100.0
+            delivery_days: 4
+            purchase_timestamp: "2024-01-01T10:00:00"
+          - customer_id: "c1"
+            total_payment_value: 200.0
+            delivery_days: 6
+            purchase_timestamp: "2024-02-01T10:00:00"
+    expect:
+      rows:
+        - customer_id: "c1"
+          customer_unique_id: "u1"
+          customer_city: "sao paulo"
+          customer_state: "SP"
+          total_orders: 2
+          total_spent: 300.0
+          average_order_value: 150.0
+          average_delivery_days: 5.0
+          last_purchase_timestamp: "2024-02-01T10:00:00"
+
+  - name: customer_with_no_orders_shows_zeroes
+    model: 12_gold_customer_analytics.sql
+    given:
+      - table: silver.customers_enriched
+        rows:
+          - customer_id: "c2"
+            customer_unique_id: "u2"
+            customer_city: "curitiba"
+            customer_state: "PR"
+            latitude: -25.43
+            longitude: -49.27
+      - table: gold.order_analytics
+        rows:
+          - customer_id: "unrelated_customer"
+            total_payment_value: 50.0
+            delivery_days: 3
+            purchase_timestamp: "2024-01-01T10:00:00"
+    expect:
+      rows:
+        - customer_id: "c2"
+          customer_unique_id: "u2"
+          customer_city: "curitiba"
+          customer_state: "PR"
+          total_orders: 0
+          total_spent: 0.0
+          average_order_value: 0.0
+          average_delivery_days: null
+          last_purchase_timestamp: null
