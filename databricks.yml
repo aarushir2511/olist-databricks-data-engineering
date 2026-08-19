@@ -10,6 +10,8 @@ variables:
     default: "local"
   catalog:
     default: "olist_cdp_dev"
+  volume_path:
+    default: "/Volumes/olist_cdp_dev/bronze/landing"
 
 targets:
   dev:
@@ -33,3 +35,4 @@ targets:
       service_principal_name: "f8e6bd5c-f541-47d0-92c8-13aa54154f07"
     variables:
       catalog: "olist_cdp_prod"
+      volume_path: "/Volumes/olist_cdp_prod/bronze/landing"

@@ -10,6 +10,9 @@ resources:
       development: false
       channel: CURRENT
 
+      configuration:
+        volume_path: "${var.volume_path}"
+
       libraries:
         - glob:
             include: ../src/transformations/**

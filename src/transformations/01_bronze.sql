@@ -3,7 +3,7 @@ CREATE OR REFRESH STREAMING TABLE bronze.orders
 AS
 SELECT *
 FROM STREAM read_files(
-    '/Volumes/olist_cdp_dev/bronze/landing',
+    '${volume_path}',
     format => 'csv',
     header => true,
     pathGlobFilter => 'olist_orders_dataset.csv'
@@ -15,7 +15,7 @@ CREATE OR REFRESH STREAMING TABLE bronze.customers
 AS
 SELECT *
 FROM STREAM read_files(
-    '/Volumes/olist_cdp_dev/bronze/landing',
+    '${volume_path}',
     format => 'csv',
     header => true,
     pathGlobFilter => 'olist_customers_dataset.csv'
@@ -27,7 +27,7 @@ CREATE OR REFRESH STREAMING TABLE bronze.order_items
 AS
 SELECT *
 FROM STREAM read_files(
-    '/Volumes/olist_cdp_dev/bronze/landing',
+    '${volume_path}',
     format => 'csv',
     header => true,
     pathGlobFilter => 'olist_order_items_dataset.csv'
@@ -39,7 +39,7 @@ CREATE OR REFRESH STREAMING TABLE bronze.order_payments
 AS
 SELECT *
 FROM STREAM read_files(
-    '/Volumes/olist_cdp_dev/bronze/landing',
+    '${volume_path}',
     format => 'csv',
     header => true,
     pathGlobFilter => 'olist_order_payments_dataset.csv'
@@ -54,7 +54,7 @@ AS
 SELECT *
 
 FROM STREAM read_files(
-    '/Volumes/olist_cdp_dev/bronze/landing',
+    '${volume_path}',
     format => 'csv',
     header => true,
     multiLine => true,
@@ -69,7 +69,7 @@ CREATE OR REFRESH STREAMING TABLE bronze.products
 AS
 SELECT *
 FROM STREAM read_files(
-    '/Volumes/olist_cdp_dev/bronze/landing',
+    '${volume_path}',
     format => 'csv',
     header => true,
     pathGlobFilter => 'olist_products_dataset.csv'
@@ -81,7 +81,7 @@ CREATE OR REFRESH STREAMING TABLE bronze.sellers
 AS
 SELECT *
 FROM STREAM read_files(
-    '/Volumes/olist_cdp_dev/bronze/landing',
+    '${volume_path}',
     format => 'csv',
     header => true,
     pathGlobFilter => 'olist_sellers_dataset.csv'
@@ -93,7 +93,7 @@ CREATE OR REFRESH STREAMING TABLE bronze.geolocation
 AS
 SELECT *
 FROM STREAM read_files(
-    '/Volumes/olist_cdp_dev/bronze/landing',
+    '${volume_path}',
     format => 'csv',
     header => true,
     pathGlobFilter => 'olist_geolocation_dataset.csv'
@@ -105,7 +105,7 @@ CREATE OR REFRESH STREAMING TABLE bronze.category_translation
 AS
 SELECT *
 FROM STREAM read_files(
-    '/Volumes/olist_cdp_dev/bronze/landing',
+    '${volume_path}',
     format => 'csv',
     header => true,
     pathGlobFilter => 'product_category_name_translation.csv'
