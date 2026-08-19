@@ -1,4 +1,4 @@
-CREATE OR REFRESH MATERIALIZED VIEW olist_cdp_dev.gold.seller_performance
+CREATE OR REFRESH MATERIALIZED VIEW gold.seller_performance
 AS
 WITH sales AS (
     SELECT
@@ -12,7 +12,7 @@ WITH sales AS (
 
         SUM(freight_value) AS total_freight
 
-    FROM olist_cdp_dev.silver.order_items_enriched
+    FROM silver.order_items_enriched
 
     GROUP BY seller_id
 ),
@@ -25,9 +25,9 @@ reviews AS (
 
         COUNT(r.review_id) AS review_count
 
-    FROM olist_cdp_dev.silver.order_items_enriched oi
+    FROM silver.order_items_enriched oi
 
-    LEFT JOIN olist_cdp_dev.silver.reviews_clean r
+    LEFT JOIN silver.reviews_clean r
         ON oi.order_id = r.order_id
 
     GROUP BY oi.seller_id
@@ -48,7 +48,7 @@ SELECT
     COALESCE(r.average_review_score, 0) AS average_review_score,
     COALESCE(r.review_count, 0) AS review_count
 
-FROM olist_cdp_dev.silver.sellers_clean s
+FROM silver.sellers_clean s
 
 LEFT JOIN sales sa
     ON s.seller_id = sa.seller_id

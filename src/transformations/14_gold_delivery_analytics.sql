@@ -1,4 +1,4 @@
-CREATE OR REFRESH MATERIALIZED VIEW olist_cdp_dev.gold.delivery_analytics
+CREATE OR REFRESH MATERIALIZED VIEW gold.delivery_analytics
 AS
 SELECT
     c.customer_state,
@@ -23,9 +23,9 @@ SELECT
         END
     ) AS on_time_orders
 
-FROM olist_cdp_dev.silver.orders_clean o
+FROM silver.orders_clean o
 
-LEFT JOIN olist_cdp_dev.silver.customers_enriched c
+LEFT JOIN silver.customers_enriched c
     ON o.customer_id = c.customer_id
 
 GROUP BY c.customer_state;

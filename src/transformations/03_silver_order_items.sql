@@ -1,4 +1,4 @@
-CREATE OR REFRESH STREAMING TABLE olist_cdp_dev.silver.order_items_enriched
+CREATE OR REFRESH STREAMING TABLE silver.order_items_enriched
 AS
 SELECT
     oi.order_id,
@@ -22,10 +22,10 @@ SELECT
 
     ct.product_category_name_english
 
-FROM STREAM(olist_cdp_dev.bronze.order_items) oi
+FROM STREAM(bronze.order_items) oi
 
-LEFT JOIN olist_cdp_dev.bronze.products p
+LEFT JOIN bronze.products p
     ON oi.product_id = p.product_id
 
-LEFT JOIN olist_cdp_dev.bronze.category_translation ct
+LEFT JOIN bronze.category_translation ct
     ON p.product_category_name = ct.product_category_name;

@@ -1,4 +1,4 @@
-CREATE OR REFRESH STREAMING TABLE olist_cdp_dev.silver.customers_enriched
+CREATE OR REFRESH STREAMING TABLE silver.customers_enriched
 AS
 SELECT
     c.customer_id,
@@ -10,7 +10,7 @@ SELECT
     g.latitude,
     g.longitude
 
-FROM STREAM(olist_cdp_dev.bronze.customers) c
+FROM STREAM(bronze.customers) c
 
-LEFT JOIN olist_cdp_dev.silver.geolocation_clean g
+LEFT JOIN silver.geolocation_clean g
     ON c.customer_zip_code_prefix = g.geolocation_zip_code_prefix;

@@ -1,4 +1,4 @@
-CREATE OR REFRESH MATERIALIZED VIEW olist_cdp_dev.gold.customer_analytics
+CREATE OR REFRESH MATERIALIZED VIEW gold.customer_analytics
 AS
 WITH order_metrics AS (
     SELECT
@@ -18,7 +18,7 @@ WITH order_metrics AS (
         MAX(purchase_timestamp)
             AS last_purchase_timestamp
 
-    FROM olist_cdp_dev.gold.order_analytics
+    FROM gold.order_analytics
 
     GROUP BY customer_id
 )
@@ -40,7 +40,7 @@ SELECT
     o.average_delivery_days,
     o.last_purchase_timestamp
 
-FROM olist_cdp_dev.silver.customers_enriched c
+FROM silver.customers_enriched c
 
 LEFT JOIN order_metrics o
     ON c.customer_id = o.customer_id;

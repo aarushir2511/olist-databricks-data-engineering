@@ -1,4 +1,4 @@
-CREATE OR REFRESH STREAMING TABLE olist_cdp_dev.silver.orders_clean
+CREATE OR REFRESH STREAMING TABLE silver.orders_clean
 AS
 SELECT
     order_id,
@@ -24,5 +24,5 @@ SELECT
         CAST(order_estimated_delivery_date AS DATE)
     ) AS delivery_delay_days
 
-FROM STREAM(olist_cdp_dev.bronze.orders)
+FROM STREAM(bronze.orders)
 WHERE order_id IS NOT NULL;

@@ -1,4 +1,4 @@
-CREATE OR REFRESH STREAMING TABLE olist_cdp_dev.silver.geolocation_clean
+CREATE OR REFRESH STREAMING TABLE silver.geolocation_clean
 AS
 SELECT
     geolocation_zip_code_prefix,
@@ -9,6 +9,6 @@ SELECT
     MAX(geolocation_city) AS city,
     MAX(geolocation_state) AS state
 
-FROM STREAM(olist_cdp_dev.bronze.geolocation)
+FROM STREAM(bronze.geolocation)
 
 GROUP BY geolocation_zip_code_prefix;
