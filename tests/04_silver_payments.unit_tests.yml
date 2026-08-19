@@ -1,0 +1,41 @@
+# NOTE: COLLECT_SET produces an unordered set. If this test flakes on the
+# order of payment_types, sort both sides before comparing, or check with a
+# separate assertion for "contains" instead of exact list equality.
+tests:
+  - name: aggregates_multiple_payments_for_one_order
+    model: 04_silver_payments.sql
+    given:
+      - table: bronze.order_payments
+        rows:
+          - order_id: "o1"
+            payment_value: 60.0
+            payment_installments: 2
+            payment_type: "credit_card"
+          - order_id: "o1"
+            payment_value: 40.0
+            payment_installments: 1
+            payment_type: "voucher"
+    expect:
+      rows:
+        - order_id: "o1"
+          total_payment_value: 100.0
+          payment_count: 2
+          max_installments: 2
+          payment_types: ["credit_card", "voucher"]
+
+  - name: single_payment_order
+    model: 04_silver_payments.sql
+    given:
+      - table: bronze.order_payments
+        rows:
+          - order_id: "o2"
+            payment_value: 25.0
+            payment_installments: 1
+            payment_type: "boleto"
+    expect:
+      rows:
+        - order_id: "o2"
+          total_payment_value: 25.0
+          payment_count: 1
+          max_installments: 1
+          payment_types: ["boleto"]

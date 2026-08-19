@@ -1,0 +1,26 @@
+tests:
+  - name: counts_delayed_vs_on_time_orders_by_state
+    model: 14_gold_delivery_analytics.sql
+    given:
+      - table: silver.orders_clean
+        rows:
+          - order_id: "o1"
+            customer_id: "c1"
+            delivery_days: 4
+            delivery_delay_days: -2   # delivered early -> on time
+          - order_id: "o2"
+            customer_id: "c1"
+            delivery_days: 8
+            delivery_delay_days: 3    # delivered late -> delayed
+      - table: silver.customers_enriched
+        rows:
+          - customer_id: "c1"
+            customer_state: "SP"
+    expect:
+      rows:
+        - customer_state: "SP"
+          total_orders: 2
+          average_delivery_days: 6.0
+          average_delivery_delay_days: 0.5
+          delayed_orders: 1
+          on_time_orders: 1

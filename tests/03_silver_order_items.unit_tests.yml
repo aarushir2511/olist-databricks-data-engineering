@@ -1,0 +1,74 @@
+tests:
+  - name: joins_product_and_category_correctly
+    model: 03_silver_order_items.sql
+    given:
+      - table: bronze.order_items
+        rows:
+          - order_id: "1"
+            order_item_id: "1"
+            product_id: "p1"
+            seller_id: "s1"
+            shipping_limit_date: "2024-01-01T00:00:00"
+            price: 100.0
+            freight_value: 10.0
+      - table: bronze.products
+        rows:
+          - product_id: "p1"
+            product_category_name: "beleza_saude"
+            product_name_lenght: 40
+            product_description_lenght: 200
+            product_photos_qty: 4
+            product_weight_g: 500
+            product_length_cm: 10
+            product_height_cm: 10
+            product_width_cm: 10
+      - table: bronze.category_translation
+        rows:
+          - product_category_name: "beleza_saude"
+            product_category_name_english: "health_beauty"
+    expect:
+      rows:
+        - order_id: "1"
+          order_item_id: "1"
+          product_id: "p1"
+          seller_id: "s1"
+          price: 100.0
+          freight_value: 10.0
+          product_category_name: "beleza_saude"
+          product_category_name_english: "health_beauty"
+
+  - name: handles_product_with_no_category_match
+    model: 03_silver_order_items.sql
+    given:
+      - table: bronze.order_items
+        rows:
+          - order_id: "2"
+            order_item_id: "1"
+            product_id: "p2"
+            seller_id: "s1"
+            shipping_limit_date: "2024-01-02T00:00:00"
+            price: 50.0
+            freight_value: 5.0
+      - table: bronze.products
+        rows:
+          - product_id: "p2"
+            product_category_name: null
+            product_name_lenght: null
+            product_description_lenght: null
+            product_photos_qty: null
+            product_weight_g: null
+            product_length_cm: null
+            product_height_cm: null
+            product_width_cm: null
+      - table: bronze.category_translation
+        rows: []
+    expect:
+      rows:
+        - order_id: "2"
+          order_item_id: "1"
+          product_id: "p2"
+          seller_id: "s1"
+          price: 50.0
+          freight_value: 5.0
+          product_category_name: null
+          product_category_name_english: null
