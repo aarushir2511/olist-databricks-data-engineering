@@ -8,6 +8,8 @@ include:
 variables:
   pr_number:
     default: "local"
+  catalog:
+    default: "olist_cdp_dev"
 
 targets:
   dev:
@@ -29,3 +31,5 @@ targets:
       root_path: /Users/aarushiranjan0@gmail.com/.bundle/${bundle.name}/${bundle.target}
     run_as:
       service_principal_name: "f8e6bd5c-f541-47d0-92c8-13aa54154f07"
+    variables:
+      catalog: "olist_cdp_prod"
