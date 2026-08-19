@@ -26,3 +26,6 @@ SELECT
 
 FROM STREAM(bronze.orders)
 WHERE order_id IS NOT NULL;
+
+
+-- CD test trigger
