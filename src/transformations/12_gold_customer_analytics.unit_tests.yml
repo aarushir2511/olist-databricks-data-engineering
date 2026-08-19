@@ -44,7 +44,11 @@ tests:
             latitude: -25.43
             longitude: -49.27
       - table: gold.order_analytics
-        rows: []
+        rows:
+          - customer_id: "unrelated_customer"
+            total_payment_value: 50.0
+            delivery_days: 3
+            purchase_timestamp: "2024-01-01T10:00:00"
     expect:
       rows:
         - customer_id: "c2"
@@ -52,7 +56,7 @@ tests:
           customer_city: "curitiba"
           customer_state: "PR"
           total_orders: 0
-          total_spent: 0
-          average_order_value: 0
+          total_spent: 0.0
+          average_order_value: 0.0
           average_delivery_days: null
           last_purchase_timestamp: null

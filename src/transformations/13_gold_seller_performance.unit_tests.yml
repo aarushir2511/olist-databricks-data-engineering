@@ -46,9 +46,16 @@ tests:
             seller_city: "curitiba"
             seller_state: "PR"
       - table: silver.order_items_enriched
-        rows: []
+        rows:
+          - order_id: "unrelated_order"
+            seller_id: "unrelated_seller"
+            price: 10.0
+            freight_value: 2.0
       - table: silver.reviews_clean
-        rows: []
+        rows:
+          - order_id: "unrelated_order"
+            review_id: "unrelated_review"
+            review_score: 5
     expect:
       rows:
         - seller_id: "s2"
@@ -56,7 +63,7 @@ tests:
           seller_state: "PR"
           items_sold: 0
           unique_orders: 0
-          total_sales: 0
-          total_freight: 0
-          average_review_score: 0
+          total_sales: 0.0
+          total_freight: 0.0
+          average_review_score: 0.0
           review_count: 0

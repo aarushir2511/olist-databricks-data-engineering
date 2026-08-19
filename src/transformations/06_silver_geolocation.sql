@@ -3,8 +3,9 @@ AS
 SELECT
     geolocation_zip_code_prefix,
 
-    AVG(geolocation_lat) AS latitude,
-    AVG(geolocation_lng) AS longitude,
+    ROUND(AVG(geolocation_lat), 6) AS latitude,
+    ROUND(AVG(geolocation_lng), 6) AS longitude,
+
 
     MAX(geolocation_city) AS city,
     MAX(geolocation_state) AS state

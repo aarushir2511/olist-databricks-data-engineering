@@ -49,16 +49,23 @@ tests:
             product_volume_cm3: 400.0
             product_photos_qty: 2
       - table: silver.order_items_enriched
-        rows: []
+        rows:
+          - order_id: "unrelated_order"
+            product_id: "unrelated_product"
+            price: 10.0
+            freight_value: 2.0
       - table: silver.reviews_clean
-        rows: []
+        rows:
+          - order_id: "unrelated_order"
+            review_id: "unrelated_review"
+            review_score: 5
     expect:
       rows:
         - product_id: "p2"
           product_category_name: "eletronicos"
           items_sold: 0
           unique_orders: 0
-          product_revenue: 0
-          freight_revenue: 0
-          average_review_score: 0
+          product_revenue: 0.0
+          freight_revenue: 0.0
+          average_review_score: 0.0
           review_count: 0
