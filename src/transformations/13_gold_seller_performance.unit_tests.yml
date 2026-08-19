@@ -1,0 +1,62 @@
+tests:
+  - name: aggregates_sales_and_reviews_per_seller
+    model: 13_gold_seller_performance.sql
+    given:
+      - table: silver.sellers_clean
+        rows:
+          - seller_id: "s1"
+            seller_city: "rio de janeiro"
+            seller_state: "RJ"
+      - table: silver.order_items_enriched
+        rows:
+          - order_id: "o1"
+            seller_id: "s1"
+            price: 100.0
+            freight_value: 10.0
+          - order_id: "o2"
+            seller_id: "s1"
+            price: 60.0
+            freight_value: 6.0
+      - table: silver.reviews_clean
+        rows:
+          - order_id: "o1"
+            review_id: "r1"
+            review_score: 4
+          - order_id: "o2"
+            review_id: "r2"
+            review_score: 2
+    expect:
+      rows:
+        - seller_id: "s1"
+          seller_city: "rio de janeiro"
+          seller_state: "RJ"
+          items_sold: 2
+          unique_orders: 2
+          total_sales: 160.0
+          total_freight: 16.0
+          average_review_score: 3.0
+          review_count: 2
+
+  - name: seller_with_no_sales_shows_zeroes
+    model: 13_gold_seller_performance.sql
+    given:
+      - table: silver.sellers_clean
+        rows:
+          - seller_id: "s2"
+            seller_city: "curitiba"
+            seller_state: "PR"
+      - table: silver.order_items_enriched
+        rows: []
+      - table: silver.reviews_clean
+        rows: []
+    expect:
+      rows:
+        - seller_id: "s2"
+          seller_city: "curitiba"
+          seller_state: "PR"
+          items_sold: 0
+          unique_orders: 0
+          total_sales: 0
+          total_freight: 0
+          average_review_score: 0
+          review_count: 0

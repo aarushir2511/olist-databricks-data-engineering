@@ -1,0 +1,64 @@
+tests:
+  - name: aggregates_sales_and_review_scores_per_product
+    model: 11_gold_product_performance.sql
+    given:
+      - table: silver.products_clean
+        rows:
+          - product_id: "p1"
+            product_category_name: "beleza_saude"
+            product_weight_g: 500.0
+            product_volume_cm3: 1000.0
+            product_photos_qty: 4
+      - table: silver.order_items_enriched
+        rows:
+          - order_id: "o1"
+            product_id: "p1"
+            price: 100.0
+            freight_value: 10.0
+          - order_id: "o2"
+            product_id: "p1"
+            price: 100.0
+            freight_value: 10.0
+      - table: silver.reviews_clean
+        rows:
+          - order_id: "o1"
+            review_id: "r1"
+            review_score: 5
+          - order_id: "o2"
+            review_id: "r2"
+            review_score: 3
+    expect:
+      rows:
+        - product_id: "p1"
+          product_category_name: "beleza_saude"
+          items_sold: 2
+          unique_orders: 2
+          product_revenue: 200.0
+          freight_revenue: 20.0
+          average_review_score: 4.0
+          review_count: 2
+
+  - name: product_with_no_sales_shows_zeroes_not_nulls
+    model: 11_gold_product_performance.sql
+    given:
+      - table: silver.products_clean
+        rows:
+          - product_id: "p2"
+            product_category_name: "eletronicos"
+            product_weight_g: 200.0
+            product_volume_cm3: 400.0
+            product_photos_qty: 2
+      - table: silver.order_items_enriched
+        rows: []
+      - table: silver.reviews_clean
+        rows: []
+    expect:
+      rows:
+        - product_id: "p2"
+          product_category_name: "eletronicos"
+          items_sold: 0
+          unique_orders: 0
+          product_revenue: 0
+          freight_revenue: 0
+          average_review_score: 0
+          review_count: 0

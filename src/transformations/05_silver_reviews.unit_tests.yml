@@ -1,0 +1,74 @@
+tests:
+  - name: classifies_high_score_as_positive
+    model: 05_silver_reviews.sql
+    given:
+      - table: bronze.order_reviews
+        rows:
+          - review_id: "r1"
+            order_id: "o1"
+            review_score: 5
+            review_comment_title: "Great"
+            review_comment_message: "Loved it"
+            review_creation_date: "2024-01-01T00:00:00"
+            review_answer_timestamp: "2024-01-03T00:00:00"
+    expect:
+      rows:
+        - review_id: "r1"
+          order_id: "o1"
+          review_score: 5
+          sentiment_category: "positive"
+          response_days: 2
+
+  - name: classifies_mid_score_as_neutral_and_low_as_negative
+    model: 05_silver_reviews.sql
+    given:
+      - table: bronze.order_reviews
+        rows:
+          - review_id: "r2"
+            order_id: "o2"
+            review_score: 3
+            review_comment_title: null
+            review_comment_message: null
+            review_creation_date: "2024-01-01T00:00:00"
+            review_answer_timestamp: "2024-01-02T00:00:00"
+          - review_id: "r3"
+            order_id: "o3"
+            review_score: 1
+            review_comment_title: null
+            review_comment_message: "Bad experience"
+            review_creation_date: "2024-01-01T00:00:00"
+            review_answer_timestamp: "2024-01-01T00:00:00"
+    expect:
+      rows:
+        - review_id: "r2"
+          order_id: "o2"
+          review_score: 3
+          sentiment_category: "neutral"
+          response_days: 1
+        - review_id: "r3"
+          order_id: "o3"
+          review_score: 1
+          sentiment_category: "negative"
+          response_days: 0
+
+  - name: drops_rows_missing_ids_or_invalid_score
+    model: 05_silver_reviews.sql
+    given:
+      - table: bronze.order_reviews
+        rows:
+          - review_id: null
+            order_id: "o4"
+            review_score: 4
+            review_comment_title: null
+            review_comment_message: null
+            review_creation_date: "2024-01-01T00:00:00"
+            review_answer_timestamp: "2024-01-02T00:00:00"
+          - review_id: "r5"
+            order_id: "o5"
+            review_score: 9
+            review_comment_title: null
+            review_comment_message: null
+            review_creation_date: "2024-01-01T00:00:00"
+            review_answer_timestamp: "2024-01-02T00:00:00"
+    expect:
+      rows: []
